@@ -32,36 +32,39 @@ getTimestamp() {
   echo $(date +%s.%N)
 }
 
+formatTime() {
+  local seconds=$1
+  printf "%02d:%02d:%02d" $((seconds/3600)) $(((seconds%3600)/60)) $((seconds%60))
+}
+
 main() {
   local session_type=$1
   local minutes=$2
   local text_color=$3
   local work_seconds=$(( $minutes * 60 ))
   local start_time=$( getTimestamp )
+  local last_update=0
 
   printf "\r\e[K${BOLD}${text_color}${session_type} SESSION: 00:00:00${RESET}"
 
   while true; do
     local current_time=$( getTimestamp )
-    local elapsed=$(printf "%.0f" "$(( current_time - start_time ))")  # round to seconds
-
-    (( elapsed >= work_seconds )) && break  # if left is true run right
-
-    printf "\r\e[K${BOLD}${text_color}${session_type} SESSION: %02d:%02d:%02d${RESET}" \
-      $((elapsed / 3600)) \
-      $(( (elapsed % 3600) / 60)) \
-      $(( elapsed % 60 ))
-
+    local elapsed=$(( current_time - start_time ))
     local remaining=$(( work_seconds - elapsed ))
-    sleep $(( remaining < 1 ? remaining : 1 ))
+
+    (( elapsed >= work_seconds )) && break  # if left is true execute right
+
+    if (( $(printf "%.1f" "$(( current_time - last_update ))") >= update_interval )); then
+      printf "\r\e[K${BOLD}${text_color}${session_type} SESSION: $( formatTime $elapsed )${RESET}"
+      last_update=$current_time
+    fi
+
+    sleep $(( remaining < update_interval ? remaining : update_interval ))
   done
 
-  echo
+  printf "\r\e[K${BOLD}${text_color}${session_type} SESSION: $( formatTime $work_seconds )${RESET}\n"
   playSound $sound_file
 }
 
-echo $( getTimestamp )
 main "WORK" WORK_MINS $PURPLE
-echo $( getTimestamp )
 main "BREAK" BREAK_MINS $GREEN
-echo $( getTimestamp )
