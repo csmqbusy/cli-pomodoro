@@ -16,6 +16,7 @@ The script has only been tested on macOS and may not work on Linux systems due t
 ### Installation
 1. Clone repository
 2. Make script executable
+3. You can make the script global to call it from anywhere (https://stackoverflow.com/questions/3560326/how-to-make-a-shell-script-global)
 
 ### Usage
 Basic command:
