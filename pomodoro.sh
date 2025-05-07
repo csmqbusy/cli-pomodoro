@@ -9,8 +9,9 @@ PURPLE='\u001b[35m'
 BOLD='\u001b[1m'
 RESET='\033[0m'
 
-sound_file="sound.wav"
-update_interval=0.2  # 5 FPS
+script_dir="${0:A:h}"
+sound_file="$script_dir/sound.wav"
+update_interval=0.33  # 3 FPS
 
 playSound() {
   local file=$1
