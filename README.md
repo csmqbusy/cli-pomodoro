@@ -1,10 +1,11 @@
 ## CLI Pomodoro Timer 🍅
 
+<img width="466" alt="Снимок экрана 2025-05-07 в 15 04 57" src="https://github.com/user-attachments/assets/10120559-b4d3-4d09-91ed-33c34a5fda9c" />
+
+
 A simple command-line Pomodoro timer written for personal use.
 
 The script has only been tested on macOS and may not work on Linux systems due to its reliance on `afplay` for audio alerts.
-
-<img width="466" alt="Снимок экрана 2025-05-07 в 15 04 57" src="https://github.com/user-attachments/assets/10120559-b4d3-4d09-91ed-33c34a5fda9c" />
 
 ### Features
 - Customizable work/break durations
